@@ -302,14 +302,14 @@
 <!-- ── HERO ── -->
 <section id="hero">
   <div class="hero-slides" id="heroSlides">
-    <div class="hero-slide active" style="background-image:url('1.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('2.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('3.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('4.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('5.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('6.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('7.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('8.jfif')"></div>
+    <div class="hero-slide active" style="background-image:url('1.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('2.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('3.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('4.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('5.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('6.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('7.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('8.jpg')"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -317,7 +317,7 @@
     <div class="hero-address">515 Buckroe<br>Avenue</div>
     <div class="hero-city">Hampton, Virginia · Just Blocks from the Beach</div>
     <div class="hero-stats">
-      <div class="hero-stat"><span class="val">$529,500</span><span class="lbl">List Price</span></div>
+      <div class="hero-stat"><span class="val">$559,000</span><span class="lbl">List Price</span></div>
       <div class="hero-stat"><span class="val">5</span><span class="lbl">Bedrooms</span></div>
       <div class="hero-stat"><span class="val">3.5</span><span class="lbl">Bathrooms</span></div>
       <div class="hero-stat"><span class="val">2,365</span><span class="lbl">Sq. Ft.</span></div>
@@ -347,7 +347,7 @@
   </div>
   <div class="overview-price-panel">
     <div class="price-label">Listed At</div>
-    <div class="price-value">$529,500</div>
+    <div class="price-value">$559,000</div>
     <div class="price-note">Hampton, VA 23664 · Buckroe Beach</div>
     <div class="mls-badge"><span class="mls-lbl">MLS</span><span class="mls-val">10586686</span></div>
   </div>
@@ -407,7 +407,7 @@
     </div>
   </div>
   <div class="floorplan-img-wrap" data-reveal data-reveal-delay="2" onclick="openFloorplan()">
-    <img src="42.jfif" alt="515 Buckroe Avenue Floor Plan" loading="lazy" />
+    <img src="42.jpg" alt="515 Buckroe Avenue Floor Plan" loading="lazy" />
     <div class="fp-zoom">Click to Enlarge</div>
   </div>
 </section>
@@ -513,7 +513,7 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ─── PHOTOS ───
   const TOTAL = 41;
-  const photos = Array.from({length:TOTAL},(_,i)=>`${i+1}.jfif`);
+  const photos = Array.from({length:TOTAL},(_,i)=>`${i+1}.jpg`);
   const layoutMap = {0:'tall wide',5:'wide',8:'tall',14:'wide',20:'tall',26:'wide',32:'tall'};
   let shown=0, BATCH=12, lbIdx=0, lbSet=photos;
 
@@ -546,7 +546,7 @@
     lb.classList.add('open');
     document.body.style.overflow='hidden';
   }
-  function openFloorplan(){ openLb(0,['42.jfif']); lbCount.textContent='Floor Plan'; }
+  function openFloorplan(){ openLb(0,['42.jpg']); lbCount.textContent='Floor Plan'; }
   function lbClose(){ lb.classList.remove('open'); document.body.style.overflow=''; }
   function lbNav(dir){
     lbIdx=(lbIdx+dir+lbSet.length)%lbSet.length;
@@ -587,7 +587,23 @@
   window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',scrollY>60));
 
   // ─── REVEAL ───
-  const ro=new IntersectionObserver(entries=>{ 
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');ro.unobserve(e.target);}});
-  },{threshold:0.1});
-  document.querySelectorAll('[data-re
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const ro = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('revealed'); ro.unobserve(e.target); } });
+  }, {threshold:0, rootMargin:'0px 0px -60px 0px'});
+  revealEls.forEach(el=>{
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight){ el.classList.add('revealed'); }
+    else { ro.observe(el); }
+  });
+
+  // ─── FORM ───
+  function handleSubmit(btn){
+    btn.textContent='Message Sent ✓';
+    btn.style.background='#4a7a72';
+    btn.style.color='#fff';
+    btn.disabled=true;
+  }
+</script>
+</body>
+</html>
