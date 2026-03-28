@@ -135,6 +135,15 @@
     .mls-badge { display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(91,143,138,0.35); padding:12px 20px; }
     .mls-badge .mls-lbl { font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--dw-tan); }
     .mls-badge .mls-val { font-size:13px; font-weight:500; color:var(--seafoam); }
+    .panel-divider { width:100%; height:1px; background:rgba(91,143,138,0.25); margin:36px 0 28px; }
+    .panel-highlights { display:grid; grid-template-columns:1fr 1fr; gap:0; width:100%; margin-bottom:36px; }
+    .panel-highlight { padding:16px 0; border-bottom:1px solid rgba(91,143,138,0.15); }
+    .panel-highlight:nth-child(odd) { padding-right:20px; border-right:1px solid rgba(91,143,138,0.15); }
+    .panel-highlight:nth-child(even) { padding-left:20px; }
+    .ph-val { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; color:var(--dw-white); display:block; line-height:1; margin-bottom:4px; }
+    .ph-lbl { font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--dw-tan); }
+    .panel-cta { background:var(--sea-glass); color:#fff; border:none; padding:16px 28px; font-family:'Jost',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; transition:background 0.2s; width:100%; }
+    .panel-cta:hover { background:var(--seafoam); }
 
     /* ── AMENITIES ── */
     #amenities { background:var(--sea-mist); padding:100px 80px; scroll-margin-top:var(--nav-h); }
@@ -350,6 +359,28 @@
     <div class="price-value">$559,000</div>
     <div class="price-note">Hampton, VA 23664 · Buckroe Beach</div>
     <div class="mls-badge"><span class="mls-lbl">MLS</span><span class="mls-val">10586686</span></div>
+    <div class="panel-divider"></div>
+    <div class="panel-highlights">
+      <div class="panel-highlight">
+        <span class="ph-val">2025</span>
+        <span class="ph-lbl">New Construction</span>
+      </div>
+      <div class="panel-highlight">
+        <span class="ph-val">5 / 3.5</span>
+        <span class="ph-lbl">Beds / Baths</span>
+      </div>
+      <div class="panel-highlight">
+        <span class="ph-val">2,365</span>
+        <span class="ph-lbl">Square Feet</span>
+      </div>
+      <div class="panel-highlight">
+        <span class="ph-val">No HOA</span>
+        <span class="ph-lbl">No Restrictions</span>
+      </div>
+    </div>
+    <button class="panel-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      Schedule a Private Tour
+    </button>
   </div>
 </section>
 
@@ -537,7 +568,7 @@
       const cls=layoutMap[i]?' '+layoutMap[i]:'';
       const div=document.createElement('div');
       div.className='gallery-item'+cls;
-      div.innerHTML=`<img src="${src}" alt="515 Buckroe Ave photo ${i+1}" loading="lazy"><span class="photo-num">${i+1}</span>`;
+      div.innerHTML=`<img src="${src}" alt="515 Buckroe Ave photo ${i+1}" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'"><span class="photo-num">${i+1}</span>`;
       div.addEventListener('click',()=>openLb(j,loadedPhotos.map(p=>p.src)));
       grid.appendChild(div);
     }
@@ -609,7 +640,7 @@
     btn.style.background='#4a7a72';
     btn.style.color='#fff';
     btn.disabled=true;
-  } 
+  }
 </script>
 </body>
 </html>
