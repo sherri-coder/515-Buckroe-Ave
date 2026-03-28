@@ -302,14 +302,14 @@
 <!-- ── HERO ── -->
 <section id="hero">
   <div class="hero-slides" id="heroSlides">
-    <div class="hero-slide active" style="background-image:url('photos/1.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('photos/2.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('photos/3.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('photos/4.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('photos/5.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('photos/6.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('photos/7.jfif')"></div>
-    <div class="hero-slide" style="background-image:url('photos/8.jfif')"></div>
+    <div class="hero-slide active" style="background-image:url('1.jfif')"></div>
+    <div class="hero-slide" style="background-image:url('2.jfif')"></div>
+    <div class="hero-slide" style="background-image:url('3.jfif')"></div>
+    <div class="hero-slide" style="background-image:url('4.jfif')"></div>
+    <div class="hero-slide" style="background-image:url('5.jfif')"></div>
+    <div class="hero-slide" style="background-image:url('6.jfif')"></div>
+    <div class="hero-slide" style="background-image:url('7.jfif')"></div>
+    <div class="hero-slide" style="background-image:url('8.jfif')"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -407,7 +407,7 @@
     </div>
   </div>
   <div class="floorplan-img-wrap" data-reveal data-reveal-delay="2" onclick="openFloorplan()">
-    <img src="photos/42.jfif" alt="515 Buckroe Avenue Floor Plan" loading="lazy" />
+    <img src="42.jfif" alt="515 Buckroe Avenue Floor Plan" loading="lazy" />
     <div class="fp-zoom">Click to Enlarge</div>
   </div>
 </section>
@@ -452,7 +452,7 @@
         </div>
         <div class="agent-detail">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <a href="mailto:sherri@parsonsregroup.com">sherri@parsonsregroup.com</a>
+          <a href="/cdn-cgi/l/email-protection#e3908b8691918aa3938291908c8d90918684918c9693cd808c8e"><span class="__cf_email__" data-cfemail="7a09121f0808133a0a1b0809151409081f1d08150f0a54191517">[email&#160;protected]</span></a>
         </div>
         <div class="agent-detail">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -510,10 +510,10 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ─── PHOTOS ───
   const TOTAL = 41;
-  const photos = Array.from({length:TOTAL},(_,i)=>`photos/${i+1}.jfif`);
+  const photos = Array.from({length:TOTAL},(_,i)=>`${i+1}.jfif`);
   const layoutMap = {0:'tall wide',5:'wide',8:'tall',14:'wide',20:'tall',26:'wide',32:'tall'};
   let shown=0, BATCH=12, lbIdx=0, lbSet=photos;
 
@@ -546,7 +546,7 @@
     lb.classList.add('open');
     document.body.style.overflow='hidden';
   }
-  function openFloorplan(){ openLb(0,['photos/42.jfif']); lbCount.textContent='Floor Plan'; }
+  function openFloorplan(){ openLb(0,['42.jfif']); lbCount.textContent='Floor Plan'; }
   function lbClose(){ lb.classList.remove('open'); document.body.style.overflow=''; }
   function lbNav(dir){
     lbIdx=(lbIdx+dir+lbSet.length)%lbSet.length;
@@ -590,15 +590,4 @@
   const ro=new IntersectionObserver(entries=>{
     entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');ro.unobserve(e.target);}});
   },{threshold:0.1});
-  document.querySelectorAll('[data-reveal]').forEach(el=>ro.observe(el));
-
-  // ─── FORM ───
-  function handleSubmit(btn){
-    btn.textContent='Message Sent ✓';
-    btn.style.background='#4a7a72';
-    btn.style.color='#fff';
-    btn.disabled=true;
-  }
-</script>
-</body>
-</html>
+  document.querySelectorAll('[data-re
