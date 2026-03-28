@@ -587,7 +587,7 @@
   window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',scrollY>60));
 
   // ─── REVEAL ───
-  const ro=new IntersectionObserver(entries=>{
+  const ro=new IntersectionObserver(entries=>{ 
     entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');ro.unobserve(e.target);}});
   },{threshold:0.1});
   document.querySelectorAll('[data-re
