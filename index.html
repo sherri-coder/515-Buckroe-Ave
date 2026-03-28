@@ -424,19 +424,19 @@ footer{background:var(--dw-white);border-top:1px solid var(--sand);padding:34px 
       </div>
     </div>
   </div>
-  <div>
+  <form action="https://formspree.io/f/mlgogyrb" method="POST" id="inquiryForm" onsubmit="handleSubmit(event)">
     <div class="form-row">
-      <div class="form-group"><label class="form-label">First Name *</label><input type="text" class="form-input" placeholder="Jane"/></div>
-      <div class="form-group"><label class="form-label">Last Name *</label><input type="text" class="form-input" placeholder="Smith"/></div>
+      <div class="form-group"><label class="form-label">First Name *</label><input type="text" name="first_name" class="form-input" placeholder="Jane" required/></div>
+      <div class="form-group"><label class="form-label">Last Name *</label><input type="text" name="last_name" class="form-input" placeholder="Smith" required/></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" placeholder="jane@email.com"/></div>
-      <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" placeholder="(757) 555-0100"/></div>
+      <div class="form-group"><label class="form-label">Email *</label><input type="email" name="email" class="form-input" placeholder="jane@email.com" required/></div>
+      <div class="form-group"><label class="form-label">Phone</label><input type="tel" name="phone" class="form-input" placeholder="(757) 555-0100"/></div>
     </div>
     <div class="form-row">
       <div class="form-group full">
         <label class="form-label">I am interested in...</label>
-        <select class="form-select form-input">
+        <select name="interest" class="form-select form-input">
           <option value="">Select an option</option>
           <option>Scheduling a Private Tour</option>
           <option>More Property Information</option>
@@ -446,10 +446,12 @@ footer{background:var(--dw-white);border-top:1px solid var(--sand);padding:34px 
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group full"><label class="form-label">Message</label><textarea class="form-textarea" placeholder="I'd love to schedule a showing..."></textarea></div>
+      <div class="form-group full"><label class="form-label">Message</label><textarea name="message" class="form-textarea" placeholder="I'd love to schedule a showing..."></textarea></div>
     </div>
-    <button type="button" class="form-submit" onclick="handleSubmit(this)">Send Inquiry</button>
-  </div>
+    <input type="hidden" name="_subject" value="New Inquiry - 515 Buckroe Avenue"/>
+    <input type="hidden" name="_next" value="https://formspree.io/thanks"/>
+    <button type="submit" class="form-submit" id="submitBtn">Send Inquiry</button>
+  </form>
 </section>
 
 <!-- FOOTER -->
@@ -588,11 +590,32 @@ window.addEventListener('scroll', function() {
 });
 
 // FORM
-function handleSubmit(btn) {
-  btn.textContent = 'Message Sent';
-  btn.style.background = '#4a7a72';
+function handleSubmit(e) {
+  e.preventDefault();
+  var btn = document.getElementById('submitBtn');
+  var form = document.getElementById('inquiryForm');
+  btn.textContent = 'Sending...';
   btn.disabled = true;
-} 
+  fetch('https://formspree.io/f/mlgogyrb', {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(function(res) {
+    if (res.ok) {
+      btn.textContent = 'Message Sent!';
+      btn.style.background = '#4a7a72';
+      form.reset();
+    } else {
+      btn.textContent = 'Error - Try Again';
+      btn.style.background = '#8a4a4a';
+      btn.disabled = false;
+    }
+  }).catch(function() {
+    btn.textContent = 'Error - Try Again';
+    btn.style.background = '#8a4a4a';
+    btn.disabled = false;
+  });
+}
 </script>
 </body>
 </html>
