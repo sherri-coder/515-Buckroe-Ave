@@ -39,8 +39,8 @@
 
     .section-label { font-size:10px; font-weight:600; letter-spacing:0.28em; text-transform:uppercase; color:var(--sea-glass); display:block; margin-bottom:12px; }
     .gold-rule { width:48px; height:2px; background:var(--sea-glass); margin-bottom:20px; }
-    [data-reveal] { opacity:0; transform:translateY(24px); transition:opacity 0.7s ease,transform 0.7s ease; }
-    [data-reveal].revealed { opacity:1; transform:translateY(0); }
+    [data-reveal] { opacity:1; transform:none; transition:none; }
+    [data-reveal].revealed { opacity:1; transform:none; }
     [data-reveal-delay="1"] { transition-delay:0.1s; }
     [data-reveal-delay="2"] { transition-delay:0.2s; }
     [data-reveal-delay="3"] { transition-delay:0.3s; }
@@ -513,25 +513,39 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ─── PHOTOS ───
   const TOTAL = 41;
-  const photos = Array.from({length:TOTAL},(_,i)=>`${i+1}.jpg`);
+  const allPhotos = Array.from({length:TOTAL},(_,i)=>`${i+1}.jpg`);
   const layoutMap = {0:'tall wide',5:'wide',8:'tall',14:'wide',20:'tall',26:'wide',32:'tall'};
-  let shown=0, BATCH=12, lbIdx=0, lbSet=photos;
+  let shown=0, BATCH=12, lbIdx=0, lbSet=allPhotos;
+  const loadedPhotos = []; // only photos that actually load
+
+  // Pre-check which photos exist before building gallery
+  function preloadCheck(callback){
+    let checked=0;
+    allPhotos.forEach((src,i)=>{
+      const img = new Image();
+      img.onload = ()=>{ loadedPhotos.push({src,i}); checked++; if(checked===allPhotos.length) callback(); };
+      img.onerror = ()=>{ checked++; if(checked===allPhotos.length) callback(); };
+      img.src = src;
+    });
+  }
 
   function buildBatch(){
     const grid=document.getElementById('galleryGrid');
-    const end=Math.min(shown+BATCH,photos.length);
-    for(let i=shown;i<end;i++){
+    const end=Math.min(shown+BATCH,loadedPhotos.length);
+    for(let j=shown;j<end;j++){
+      const {src,i}=loadedPhotos[j];
       const cls=layoutMap[i]?' '+layoutMap[i]:'';
       const div=document.createElement('div');
       div.className='gallery-item'+cls;
-      div.innerHTML=`<img src="${photos[i]}" alt="515 Buckroe Ave photo ${i+1}" loading="lazy"><span class="photo-num">${i+1}</span>`;
-      div.addEventListener('click',()=>openLb(i,photos));
+      div.innerHTML=`<img src="${src}" alt="515 Buckroe Ave photo ${i+1}" loading="lazy"><span class="photo-num">${i+1}</span>`;
+      div.addEventListener('click',()=>openLb(j,loadedPhotos.map(p=>p.src)));
       grid.appendChild(div);
     }
     shown=end;
-    if(shown>=photos.length) document.getElementById('loadMoreBtn').style.display='none';
+    if(shown>=loadedPhotos.length) document.getElementById('loadMoreBtn').style.display='none';
   }
-  buildBatch();
+
+  preloadCheck(()=>{ buildBatch(); });
   document.getElementById('loadMoreBtn').addEventListener('click',buildBatch);
 
   // ─── LIGHTBOX ───
@@ -587,15 +601,7 @@
   window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',scrollY>60));
 
   // ─── REVEAL ───
-  const revealEls = document.querySelectorAll('[data-reveal]');
-  const ro = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('revealed'); ro.unobserve(e.target); } });
-  }, {threshold:0, rootMargin:'0px 0px -60px 0px'});
-  revealEls.forEach(el=>{
-    const rect = el.getBoundingClientRect();
-    if(rect.top < window.innerHeight){ el.classList.add('revealed'); }
-    else { ro.observe(el); }
-  });
+  // sections always visible
 
   // ─── FORM ───
   function handleSubmit(btn){
@@ -603,7 +609,7 @@
     btn.style.background='#4a7a72';
     btn.style.color='#fff';
     btn.disabled=true;
-  } 
+  }
 </script>
 </body>
 </html>
